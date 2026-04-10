@@ -18,6 +18,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - uses: actions/setup-node@v4
         with:
@@ -45,7 +47,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/inspire/ data/content-history.json
+          git add docs/inspire/
           git commit -m "Add generated content image" || echo "No changes to commit"
           git push
 
@@ -62,11 +64,11 @@ jobs:
             --title "${{ steps.generate.outputs.caption }}" \
             --aigc
 
-      - name: Persist refreshed tokens
+      - name: Save refreshed tokens
         if: always()
         run: |
           if [ -f data/tokens.json ]; then
-            gh secret set TIKTOK_TOKENS < data/tokens.json
+            echo "::warning::If tokens were refreshed, update the TIKTOK_TOKENS secret manually"
+            cat data/tokens.json | head -c 50
+            echo "..."
           fi
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
