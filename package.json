@@ -1,0 +1,45 @@
+{
+  "name": "premiumcomfort",
+  "version": "1.0.0",
+  "description": "TikTok content automation tool for Premium Comfort",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "auth": "tsx src/cli.ts auth",
+    "post": "tsx src/cli.ts post",
+    "schedule": "tsx src/cli.ts schedule",
+    "list": "tsx src/cli.ts list",
+    "cancel": "tsx src/cli.ts cancel",
+    "generate": "tsx src/cli.ts generate",
+    "test": "vitest run",
+    "lint": "eslint src/"
+  },
+  "keywords": [
+    "tiktok",
+    "automation",
+    "content-posting"
+  ],
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "express": "^5.2.1",
+    "node-cron": "^4.2.1",
+    "open": "^11.0.0",
+    "sharp": "^0.34.5",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0",
+    "@types/node-cron": "^3.0.11",
+    "@types/sharp": "^0.31.1",
+    "@types/uuid": "^10.0.0",
+    "eslint": "^10.2.0",
+    "vitest": "^4.1.4"
+  }
+}

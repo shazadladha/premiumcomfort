@@ -1,0 +1,72 @@
+name: Generate & Post to TikTok
+
+on:
+  schedule:
+    # 10am, 12pm, 3pm, 6pm, 9pm UK time (UTC during GMT; subtract 1hr during BST)
+    - cron: '0 10 * * *'
+    - cron: '0 12 * * *'
+    - cron: '0 15 * * *'
+    - cron: '0 18 * * *'
+    - cron: '0 21 * * *'
+  workflow_dispatch:
+
+jobs:
+  generate-and-post:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create data directory
+        run: mkdir -p data
+
+      - name: Restore TikTok tokens
+        run: echo '${{ secrets.TIKTOK_TOKENS }}' > data/tokens.json
+
+      - name: Generate image
+        id: generate
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          SITE_BASE_URL: https://premiumcomfort.uk
+        run: npx tsx src/cli.ts generate --count 1
+
+      - name: Commit & push images
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/inspire/ data/content-history.json
+          git commit -m "Add generated content image" || echo "No changes to commit"
+          git push
+
+      - name: Wait for Pages deployment
+        run: sleep 90
+
+      - name: Post to TikTok
+        env:
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+        run: |
+          npx tsx src/cli.ts post \
+            --photos "${{ steps.generate.outputs.image_url }}" \
+            --title "${{ steps.generate.outputs.caption }}" \
+            --aigc
+
+      - name: Persist refreshed tokens
+        if: always()
+        run: |
+          if [ -f data/tokens.json ]; then
+            gh secret set TIKTOK_TOKENS < data/tokens.json
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
