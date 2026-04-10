@@ -191,7 +191,7 @@
         <a href="/" class="nav-logo">Premium Comfort</a>
         <div class="nav-links">
             <a href="/">Home</a>
-            <a href="/inspire" class="active">Inspire</a>
+            <a href="/inspire/" class="active">Inspire</a>
         </div>
     </nav>
 
@@ -200,27 +200,51 @@
         <p>A curated gallery of home comfort moments. Each image crafted to inspire your living space.</p>
     </section>
 
-    <div class="gallery-count">2 images</div>
+    <div class="gallery-count" id="galleryCount"></div>
 
-    <div class="gallery">
-            <div class="gallery-item">
-                <img src="images/7bd10fbe.png" alt="Awake to the subtle elegance of spring, where luxury meets serenity in a palette of nature’s finest hues." loading="lazy">
-                <div class="gallery-caption">
-                    <p class="caption-text">Awake to the subtle elegance of spring, where luxury meets serenity in a palette of nature’s finest hues.</p>
-                    <span class="caption-date">10 April 2026</span>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/0ebee172.png" alt="A cashmere throw draped over a bench bathed in golden sunlight, beside a vase of white lilies — quiet luxury at home." loading="lazy">
-                <div class="gallery-caption">
-                    <p class="caption-text">A cashmere throw draped over a bench bathed in golden sunlight, beside a vase of white lilies — quiet luxury at home.</p>
-                    <span class="caption-date">10 April 2026</span>
-                </div>
-            </div>
+    <div class="gallery" id="gallery">
+        <div class="empty-state"><p>Loading...</p></div>
     </div>
 
     <footer class="footer">
         <p>&copy; 2026 <a href="/">Premium Comfort</a>. All imagery is AI-generated.</p>
     </footer>
+
+    <script>
+        fetch('gallery.json')
+            .then(function(res) { return res.json(); })
+            .then(function(images) {
+                var gallery = document.getElementById('gallery');
+                var countEl = document.getElementById('galleryCount');
+
+                if (!images.length) {
+                    gallery.innerHTML = '<div class="empty-state"><p>New inspirations coming soon\u2026</p></div>';
+                    countEl.textContent = '0 images';
+                    return;
+                }
+
+                countEl.textContent = images.length + ' image' + (images.length !== 1 ? 's' : '');
+
+                gallery.innerHTML = images.map(function(img) {
+                    var d = new Date(img.date);
+                    var dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+                    var caption = img.caption
+                        .replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;')
+                        .replace(/"/g, '&quot;');
+                    return '<div class="gallery-item">'
+                        + '<img src="images/' + img.filename + '" alt="' + caption + '" loading="lazy">'
+                        + '<div class="gallery-caption">'
+                        + '<p class="caption-text">' + caption + '</p>'
+                        + '<span class="caption-date">' + dateStr + '</span>'
+                        + '</div></div>';
+                }).join('');
+            })
+            .catch(function() {
+                document.getElementById('gallery').innerHTML = '<div class="empty-state"><p>New inspirations coming soon\u2026</p></div>';
+                document.getElementById('galleryCount').textContent = '0 images';
+            });
+    </script>
 </body>
 </html>
