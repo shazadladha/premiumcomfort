@@ -167,7 +167,7 @@ export async function revokeToken(config: AppConfig): Promise<void> {
 
 export async function startAuthFlow(config: AppConfig): Promise<TokenData> {
   const state = randomUUID();
-  const scopes = "user.info.basic,video.upload";
+  const scopes = "user.info.basic,video.upload,video.publish";
 
   const authUrl = new URL(TIKTOK_AUTH_URL);
   authUrl.searchParams.set("client_key", config.clientKey);
