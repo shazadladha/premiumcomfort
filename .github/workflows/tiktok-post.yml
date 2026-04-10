@@ -23,9 +23,6 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install ffmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
-
       - name: Install dependencies
         run: npm ci
 
@@ -35,8 +32,7 @@ jobs:
       - name: Restore TikTok tokens
         run: echo '${{ secrets.TIKTOK_TOKENS }}' > data/tokens.json
 
-      - name: Generate image and video
-        id: generate
+      - name: Generate image
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
@@ -52,15 +48,19 @@ jobs:
           git commit -m "Add generated content image" || echo "No changes to commit"
           git push
 
-      - name: Post video to TikTok
+      - name: Wait for Pages deployment
+        run: sleep 90
+
+      - name: Post to TikTok
         env:
           TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
           TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
         run: |
-          npx tsx src/cli.ts post \
-            --file "${{ steps.generate.outputs.video_path }}" \
-            --title "${{ steps.generate.outputs.caption }}" \
-            --aigc
+          IMAGE_URL=$(jq -r '.imageUrl' data/generate-result.json)
+          CAPTION=$(jq -r '.caption' data/generate-result.json | head -1)
+          echo "Posting: $IMAGE_URL"
+          echo "Caption: $CAPTION"
+          npx tsx src/cli.ts post --photos "$IMAGE_URL" --title "$CAPTION" --aigc
 
       - name: Log token status
         if: always()
