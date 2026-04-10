@@ -45,7 +45,7 @@ interface StatusResponse {
   };
 }
 
-function buildPostInfo(options: PostOptions) {
+function buildVideoPostInfo(options: PostOptions) {
   return {
     privacy_level: options.privacyLevel || "SELF_ONLY",
     title: options.title || "",
@@ -53,6 +53,15 @@ function buildPostInfo(options: PostOptions) {
     disable_stitch: options.disableStitch ?? false,
     disable_comment: options.disableComment ?? false,
     brand_content_toggle: options.brandContentToggle ?? false,
+    is_aigc: options.isAigc ?? false,
+  };
+}
+
+function buildPhotoPostInfo(options: PostOptions) {
+  return {
+    privacy_level: options.privacyLevel || "SELF_ONLY",
+    title: options.title || "",
+    disable_comment: options.disableComment ?? false,
     is_aigc: options.isAigc ?? false,
   };
 }
@@ -74,7 +83,7 @@ export async function postVideoFromFile(
       "Content-Type": "application/json; charset=UTF-8",
     },
     body: JSON.stringify({
-      post_info: buildPostInfo(options),
+      post_info: buildVideoPostInfo(options),
       source_info: {
         source: "FILE_UPLOAD",
         video_size: fileSize,
@@ -135,7 +144,7 @@ export async function postVideoFromUrl(
       "Content-Type": "application/json; charset=UTF-8",
     },
     body: JSON.stringify({
-      post_info: buildPostInfo(options),
+      post_info: buildVideoPostInfo(options),
       source_info: {
         source: "PULL_FROM_URL",
         video_url: videoUrl,
@@ -172,8 +181,8 @@ export async function postPhoto(
     },
     body: JSON.stringify({
       media_type: "PHOTO",
-      post_mode: "MEDIA_UPLOAD",
-      post_info: buildPostInfo(options),
+      post_mode: "DIRECT_POST",
+      post_info: buildPhotoPostInfo(options),
       source_info: {
         source: "PULL_FROM_URL",
         photo_images: photoUrls,
