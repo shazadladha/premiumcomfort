@@ -58,11 +58,15 @@ function buildVideoPostInfo(options: PostOptions) {
 }
 
 function buildPhotoPostInfo(options: PostOptions) {
+  const caption = options.title || "";
   return {
     privacy_level: options.privacyLevel || "SELF_ONLY",
-    title: options.title || "",
+    title: caption.slice(0, 90),
+    description: caption,
     disable_comment: options.disableComment ?? false,
-    is_aigc: options.isAigc ?? false,
+    brand_content_toggle: options.brandContentToggle ?? false,
+    brand_organic_toggle: false,
+    auto_add_music: true,
   };
 }
 
