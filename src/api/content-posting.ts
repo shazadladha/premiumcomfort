@@ -185,7 +185,7 @@ export async function postPhoto(
     },
     body: JSON.stringify({
       media_type: "PHOTO",
-      post_mode: "DIRECT_POST",
+      post_mode: "MEDIA_UPLOAD",
       post_info: buildPhotoPostInfo(options),
       source_info: {
         source: "PULL_FROM_URL",
