@@ -3,27 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - Premium Comfort</title>
+    <title>Privacy Policy — Premium Comfort</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a1a; line-height: 1.7; }
-        .container { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
-        h1 { font-size: 2rem; margin-bottom: 0.5rem; }
-        .updated { color: #888; margin-bottom: 2rem; font-size: 0.9rem; }
-        h2 { font-size: 1.3rem; margin: 2rem 0 0.75rem; }
-        p, li { color: #444; margin-bottom: 0.75rem; }
-        ul { padding-left: 1.5rem; margin-bottom: 1rem; }
-        a { color: #555; }
-        footer { border-top: 1px solid #eee; padding-top: 2rem; margin-top: 3rem; text-align: center; color: #888; font-size: 0.9rem; }
-        footer a { text-decoration: none; margin: 0 1rem; }
-        footer a:hover { text-decoration: underline; }
+        :root {
+            --sage: #6AAFA4;
+            --sage-deep: #4E9389;
+            --sage-light: #D4EBE6;
+            --sage-mist: #EDF6F4;
+            --rose: #D4A0A6;
+            --rose-light: #F2E0E2;
+            --plum: #6B5B6E;
+            --plum-deep: #4A3D4E;
+            --plum-light: #9B8B9E;
+            --cream: #FBF8F4;
+            --linen: #F3ECE3;
+            --warm-white: #FEFCFA;
+            --charcoal: #2D2830;
+            --warm-gray: #8A8088;
+            --border: rgba(107, 91, 110, 0.1);
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'Jost', -apple-system, BlinkMacSystemFont, sans-serif;
+            --radius-pill: 100px;
+            --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--charcoal);
+            background: var(--cream);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--cream); }
+        ::-webkit-scrollbar-thumb { background: var(--sage-light); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--sage); }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* ═══ NAV ═══ */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.85rem 2rem;
+            background: rgba(251, 248, 244, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-logo img {
+            height: 36px;
+            width: auto;
+        }
+
+        .nav-logo-text {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--plum-deep);
+        }
+
+        .nav-logo-text span {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 0.5rem;
+            font-weight: 400;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--plum-light);
+            margin-top: -2px;
+        }
+
+        .nav-back {
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--sage-deep);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: gap 0.3s var(--ease-out);
+        }
+
+        .nav-back:hover { gap: 0.7rem; }
+
+        .nav-back svg {
+            width: 16px; height: 16px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* ═══ PAGE HEADER ═══ */
+        .page-header {
+            position: relative;
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            background: linear-gradient(180deg, var(--rose-mist, #FBF2F3) 0%, var(--cream) 100%);
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -30%; left: -10%;
+            width: 50vw; height: 50vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(106,175,164,0.06) 0%, transparent 70%);
+        }
+
+        .page-header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            color: var(--plum-deep);
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .page-header .updated {
+            font-size: 0.85rem;
+            color: var(--warm-gray);
+            font-weight: 300;
+            position: relative;
+        }
+
+        /* ═══ CONTENT ═══ */
+        .content {
+            max-width: 740px;
+            margin: 0 auto;
+            padding: 3rem 2rem 5rem;
+        }
+
+        .content h2 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--plum-deep);
+            margin: 2.5rem 0 0.75rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .content h2:first-of-type {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .content p {
+            color: var(--warm-gray);
+            margin-bottom: 0.85rem;
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .content ul {
+            padding-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .content li {
+            color: var(--warm-gray);
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        .content li::marker {
+            color: var(--rose);
+        }
+
+        .content strong {
+            color: var(--plum);
+            font-weight: 500;
+        }
+
+        .content a {
+            color: var(--sage-deep);
+            border-bottom: 1px solid var(--sage-light);
+            transition: border-color 0.3s;
+        }
+
+        .content a:hover {
+            border-color: var(--sage);
+        }
+
+        /* ═══ FOOTER ═══ */
+        .footer {
+            background: var(--charcoal);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-inner {
+            max-width: 740px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.5);
+            transition: color 0.3s;
+            font-weight: 300;
+        }
+
+        .footer-links a:hover { color: var(--sage-light); }
+
+        .footer-copy {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.35);
+            font-weight: 300;
+        }
+
+        @media (max-width: 640px) {
+            .content { padding: 2rem 1.25rem 4rem; }
+            .footer-inner { flex-direction: column; text-align: center; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">
+            <img src="images/logo.jpg" alt="Premium Comfort">
+            <div class="nav-logo-text">
+                Premium Comfort
+                <span>Home Lifestyle</span>
+            </div>
+        </a>
+        <a href="index.html" class="nav-back">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back to Home
+        </a>
+    </nav>
+
+    <div class="page-header">
         <h1>Privacy Policy</h1>
         <p class="updated">Last updated: April 10, 2026</p>
+    </div>
 
+    <div class="content">
         <p>Premium Comfort ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website, application, and services.</p>
 
         <h2>1. Information We Collect</h2>
@@ -97,14 +361,17 @@
         <h2>11. Contact Us</h2>
         <p>If you have questions or concerns about this Privacy Policy or our data practices, please contact us at:</p>
         <p><strong>Email:</strong> support@premiumcomfort.com</p>
+    </div>
 
-        <footer>
-            <p>
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-links">
                 <a href="index.html">Home</a>
                 <a href="terms.html">Terms of Service</a>
-            </p>
-            <p style="margin-top: 1rem;">&copy; 2026 Premium Comfort. All rights reserved.</p>
-        </footer>
-    </div>
+            </div>
+            <span class="footer-copy">&copy; 2026 Premium Comfort. All rights reserved.</span>
+        </div>
+    </footer>
+
 </body>
 </html>
