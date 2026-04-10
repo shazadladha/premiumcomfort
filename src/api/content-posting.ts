@@ -173,25 +173,34 @@ export async function postPhoto(
 
   console.log(`Initializing photo post (${photoUrls.length} photo(s))...`);
 
+  const requestBody = {
+    media_type: "PHOTO",
+    post_mode: "DIRECT_POST",
+    post_info: {
+      title: options.title || "",
+      privacy_level: options.privacyLevel || "SELF_ONLY",
+    },
+    source_info: {
+      source: "PULL_FROM_URL",
+      photo_images: photoUrls,
+      photo_cover_index: 0,
+    },
+  };
+
+  console.log("Request body:", JSON.stringify(requestBody, null, 2));
+
   const initRes = await fetch(`${API_BASE}/content/init/`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${tokens.accessToken}`,
       "Content-Type": "application/json; charset=UTF-8",
     },
-    body: JSON.stringify({
-      media_type: "PHOTO",
-      post_mode: "DIRECT_POST",
-      post_info: buildPhotoPostInfo(options),
-      source_info: {
-        source: "PULL_FROM_URL",
-        photo_images: photoUrls,
-        photo_cover_index: 0,
-      },
-    }),
+    body: JSON.stringify(requestBody),
   });
 
   const initData: InitResponse = await initRes.json();
+
+  console.log("Response:", JSON.stringify(initData, null, 2));
 
   if (initData.error.code !== "ok") {
     throw new Error(
