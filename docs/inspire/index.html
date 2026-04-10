@@ -191,7 +191,7 @@
         <a href="/" class="nav-logo">Premium Comfort</a>
         <div class="nav-links">
             <a href="/">Home</a>
-            <a href="/inspire/" class="active">Inspire</a>
+            <a href="/inspire" class="active">Inspire</a>
         </div>
     </nav>
 
@@ -200,51 +200,20 @@
         <p>A curated gallery of home comfort moments. Each image crafted to inspire your living space.</p>
     </section>
 
-    <div class="gallery-count" id="galleryCount"></div>
+    <div class="gallery-count">1 image</div>
 
-    <div class="gallery" id="gallery">
-        <div class="empty-state"><p>Loading...</p></div>
+    <div class="gallery">
+            <div class="gallery-item">
+                <img src="images/0b6d7283.png" alt="Indulge in a moment of luxury as the gentle spring sunlight kisses your sanctuary." loading="lazy">
+                <div class="gallery-caption">
+                    <p class="caption-text">Indulge in a moment of luxury as the gentle spring sunlight kisses your sanctuary.</p>
+                    <span class="caption-date">10 April 2026</span>
+                </div>
+            </div>
     </div>
 
     <footer class="footer">
         <p>&copy; 2026 <a href="/">Premium Comfort</a>. All imagery is AI-generated.</p>
     </footer>
-
-    <script>
-        fetch('gallery.json')
-            .then(function(res) { return res.json(); })
-            .then(function(images) {
-                var gallery = document.getElementById('gallery');
-                var countEl = document.getElementById('galleryCount');
-
-                if (!images.length) {
-                    gallery.innerHTML = '<div class="empty-state"><p>New inspirations coming soon\u2026</p></div>';
-                    countEl.textContent = '0 images';
-                    return;
-                }
-
-                countEl.textContent = images.length + ' image' + (images.length !== 1 ? 's' : '');
-
-                gallery.innerHTML = images.map(function(img) {
-                    var d = new Date(img.date);
-                    var dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-                    var caption = img.caption
-                        .replace(/&/g, '&amp;')
-                        .replace(/</g, '&lt;')
-                        .replace(/>/g, '&gt;')
-                        .replace(/"/g, '&quot;');
-                    return '<div class="gallery-item">'
-                        + '<img src="images/' + img.filename + '" alt="' + caption + '" loading="lazy">'
-                        + '<div class="gallery-caption">'
-                        + '<p class="caption-text">' + caption + '</p>'
-                        + '<span class="caption-date">' + dateStr + '</span>'
-                        + '</div></div>';
-                }).join('');
-            })
-            .catch(function() {
-                document.getElementById('gallery').innerHTML = '<div class="empty-state"><p>New inspirations coming soon\u2026</p></div>';
-                document.getElementById('galleryCount').textContent = '0 images';
-            });
-    </script>
 </body>
 </html>
