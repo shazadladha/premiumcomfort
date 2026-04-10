@@ -45,7 +45,7 @@ interface StatusResponse {
   };
 }
 
-function buildVideoPostInfo(options: PostOptions) {
+function buildPostInfo(options: PostOptions) {
   return {
     privacy_level: options.privacyLevel || "SELF_ONLY",
     title: options.title || "",
@@ -53,15 +53,6 @@ function buildVideoPostInfo(options: PostOptions) {
     disable_stitch: options.disableStitch ?? false,
     disable_comment: options.disableComment ?? false,
     brand_content_toggle: options.brandContentToggle ?? false,
-    is_aigc: options.isAigc ?? false,
-  };
-}
-
-function buildPhotoPostInfo(options: PostOptions) {
-  return {
-    privacy_level: options.privacyLevel || "SELF_ONLY",
-    title: options.title || "",
-    disable_comment: options.disableComment ?? false,
     is_aigc: options.isAigc ?? false,
   };
 }
@@ -83,7 +74,7 @@ export async function postVideoFromFile(
       "Content-Type": "application/json; charset=UTF-8",
     },
     body: JSON.stringify({
-      post_info: buildVideoPostInfo(options),
+      post_info: buildPostInfo(options),
       source_info: {
         source: "FILE_UPLOAD",
         video_size: fileSize,
@@ -144,7 +135,7 @@ export async function postVideoFromUrl(
       "Content-Type": "application/json; charset=UTF-8",
     },
     body: JSON.stringify({
-      post_info: buildVideoPostInfo(options),
+      post_info: buildPostInfo(options),
       source_info: {
         source: "PULL_FROM_URL",
         video_url: videoUrl,
@@ -173,34 +164,25 @@ export async function postPhoto(
 
   console.log(`Initializing photo post (${photoUrls.length} photo(s))...`);
 
-  const requestBody = {
-    media_type: "PHOTO",
-    post_mode: "DIRECT_POST",
-    post_info: {
-      title: options.title || "",
-      privacy_level: options.privacyLevel || "SELF_ONLY",
-    },
-    source_info: {
-      source: "PULL_FROM_URL",
-      photo_images: photoUrls,
-      photo_cover_index: 0,
-    },
-  };
-
-  console.log("Request body:", JSON.stringify(requestBody, null, 2));
-
   const initRes = await fetch(`${API_BASE}/content/init/`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${tokens.accessToken}`,
       "Content-Type": "application/json; charset=UTF-8",
     },
-    body: JSON.stringify(requestBody),
+    body: JSON.stringify({
+      media_type: "PHOTO",
+      post_mode: "MEDIA_UPLOAD",
+      post_info: buildPostInfo(options),
+      source_info: {
+        source: "PULL_FROM_URL",
+        photo_images: photoUrls,
+        photo_cover_index: 0,
+      },
+    }),
   });
 
   const initData: InitResponse = await initRes.json();
-
-  console.log("Response:", JSON.stringify(initData, null, 2));
 
   if (initData.error.code !== "ok") {
     throw new Error(
