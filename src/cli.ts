@@ -15,6 +15,7 @@ import {
   cancelScheduledPost,
   startScheduler,
 } from "./scheduler/scheduler.js";
+import { imageToVideo } from "./ai/image-to-video.js";
 import {
   generateSingleContent,
   generateMultipleContent,
@@ -268,6 +269,13 @@ async function main(): Promise<void> {
         console.log(`URL: ${result.imageUrl}`);
         console.log(`Caption: ${result.caption.split("\n")[0]}`);
 
+        // Convert image to video for TikTok posting (photo posting not supported in sandbox)
+        const { resolve } = await import("node:path");
+        const imagePath = resolve("docs", "inspire", "images", result.record.imageFilename);
+        const videoFilename = result.record.imageFilename.replace(".png", ".mp4");
+        const videoPath = resolve(config.dataDir, videoFilename);
+        imageToVideo(imagePath, videoPath);
+
         // Output for GitHub Actions
         const ghOutput = process.env.GITHUB_OUTPUT;
         if (ghOutput) {
@@ -275,6 +283,7 @@ async function main(): Promise<void> {
           appendFileSync(ghOutput, `image_url=${result.imageUrl}\n`);
           appendFileSync(ghOutput, `caption=${result.caption.split("\n")[0]}\n`);
           appendFileSync(ghOutput, `filename=${result.record.imageFilename}\n`);
+          appendFileSync(ghOutput, `video_path=${videoPath}\n`);
         }
       } else {
         const results = await generateMultipleContent(config, count);

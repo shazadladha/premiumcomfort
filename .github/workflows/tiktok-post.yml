@@ -32,7 +32,7 @@ jobs:
       - name: Restore TikTok tokens
         run: echo '${{ secrets.TIKTOK_TOKENS }}' > data/tokens.json
 
-      - name: Generate image
+      - name: Generate image and video
         id: generate
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -49,16 +49,13 @@ jobs:
           git commit -m "Add generated content image" || echo "No changes to commit"
           git push
 
-      - name: Wait for Pages deployment
-        run: sleep 90
-
-      - name: Post to TikTok
+      - name: Post video to TikTok
         env:
           TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
           TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
         run: |
           npx tsx src/cli.ts post \
-            --photos "${{ steps.generate.outputs.image_url }}" \
+            --file "${{ steps.generate.outputs.video_path }}" \
             --title "${{ steps.generate.outputs.caption }}" \
             --aigc
 
