@@ -1,13 +1,6 @@
 name: Generate & Post to TikTok
 
 on:
-  schedule:
-    # 10am, 12pm, 3pm, 6pm, 9pm UK time (UTC during GMT; subtract 1hr during BST)
-    - cron: '0 10 * * *'
-    - cron: '0 12 * * *'
-    - cron: '0 15 * * *'
-    - cron: '0 18 * * *'
-    - cron: '0 21 * * *'
   workflow_dispatch:
 
 jobs:
