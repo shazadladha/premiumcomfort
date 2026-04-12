@@ -1,6 +1,9 @@
 name: Generate & Post to TikTok
 
 on:
+  schedule:
+    - cron: '0 8 * * *'   # 8:00 AM UTC → 9:00 AM BST
+    - cron: '0 10 * * *'  # 10:00 AM UTC → 11:00 AM BST
   workflow_dispatch:
 
 jobs:
