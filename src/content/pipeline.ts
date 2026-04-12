@@ -68,7 +68,7 @@ async function generateFromBrief(
   brief: CreativeBrief
 ): Promise<GenerateResult> {
   const id = randomUUID().slice(0, 8);
-  const filename = `${id}.png`;
+  const filename = `${id}.jpg`;
   const prompt = brief.imagePrompt;
   const caption = `${brief.caption}\n\n${brief.hashtags.join(" ")}`;
   const pHash = hashPrompt(prompt);

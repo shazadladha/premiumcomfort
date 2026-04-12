@@ -5,6 +5,7 @@ import {
   postVideoFromUrl,
   postPhoto,
   checkPostStatus,
+  waitForPublish,
   type PostOptions,
   type PrivacyLevel,
 } from "./api/content-posting.js";
@@ -147,7 +148,7 @@ async function main(): Promise<void> {
       } else if (photos) {
         const photoUrls = photos.split(",").map((u) => u.trim());
         const publishId = await postPhoto(config, photoUrls, options);
-        const status = await checkPostStatus(config, publishId);
+        const status = await waitForPublish(config, publishId);
         console.log(`Status: ${status.status}`);
       } else {
         console.error("Specify --file, --url, or --photos");

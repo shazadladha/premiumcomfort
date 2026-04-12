@@ -69,7 +69,7 @@ export async function generateImage(
 
   const resizedBuffer = await sharp(rawBuffer)
     .resize(1080, 1920, { fit: "cover" })
-    .png()
+    .jpeg({ quality: 90 })
     .toBuffer();
 
   return {
