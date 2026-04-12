@@ -303,7 +303,7 @@ ${imageCards || '        <div class="empty-state"><p>New inspirations coming soo
     </div>
 
     <footer class="footer">
-        <p>&copy; ${new Date().getFullYear()} <a href="/">Premium Comfort</a>. All imagery is AI-generated.</p>
+        <p>&copy; ${new Date().getFullYear()} <a href="/">Premium Comfort</a>.</p>
     </footer>
 </body>
 </html>`;
