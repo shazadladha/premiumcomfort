@@ -244,8 +244,10 @@ export async function waitForPublish(
   while (Date.now() - start < maxWaitMs) {
     const status = await checkPostStatus(config, publishId);
 
-    if (status.status === "PUBLISH_COMPLETE") {
-      console.log("Post published successfully!");
+    if (status.status === "PUBLISH_COMPLETE" || status.status === "SEND_TO_USER_INBOX") {
+      console.log(status.status === "SEND_TO_USER_INBOX"
+        ? "Post sent to your TikTok inbox for review."
+        : "Post published successfully!");
       return status;
     }
 
