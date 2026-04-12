@@ -12,6 +12,7 @@ export type PrivacyLevel =
 
 export interface PostOptions {
   title?: string;
+  description?: string;
   privacyLevel?: PrivacyLevel;
   disableDuet?: boolean;
   disableStitch?: boolean;
@@ -58,11 +59,10 @@ function buildVideoPostInfo(options: PostOptions) {
 }
 
 function buildPhotoPostInfo(options: PostOptions) {
-  const caption = options.title || "";
   return {
     privacy_level: options.privacyLevel || "SELF_ONLY",
-    title: caption.slice(0, 90),
-    description: caption,
+    title: (options.title || "").slice(0, 90),
+    description: options.description || options.title || "",
     disable_comment: options.disableComment ?? false,
     brand_content_toggle: options.brandContentToggle ?? false,
     brand_organic_toggle: false,

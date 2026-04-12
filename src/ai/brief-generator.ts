@@ -5,6 +5,7 @@ export interface CreativeBrief {
   category: string;
   contentType: string;
   imagePrompt: string;
+  title: string;
   caption: string;
   hashtags: string[];
 }
@@ -51,13 +52,14 @@ const BRIEF_SCHEMA = {
         enum: [...CONTENT_TYPES],
       },
       imagePrompt: { type: "string" },
+      title: { type: "string" },
       caption: { type: "string" },
       hashtags: {
         type: "array",
         items: { type: "string" },
       },
     },
-    required: ["category", "contentType", "imagePrompt", "caption", "hashtags"],
+    required: ["category", "contentType", "imagePrompt", "title", "caption", "hashtags"],
     additionalProperties: false,
   },
 };
@@ -112,6 +114,14 @@ IMAGE PROMPT RULES:
 7. Every prompt MUST end with: "${BRAND_STYLE}"
 8. Photorealistic-natural style: prompt as if capturing a real photograph. Call for real textures, real materials, real lighting. No over-stylised polish.
 9. Vary your scenes, backdrops, lighting conditions, and compositions. Do not default to the same room or setup each time.
+
+TITLE RULES:
+- Short, punchy, scroll-stopping hook that makes people pause
+- Maximum 90 characters
+- Must NOT repeat the caption — the title is a teaser, the caption tells the story
+- Conversational, intriguing, or evocative — think "the line that stops the scroll"
+- No emojis. No hashtags. No ALL CAPS.
+- British English spelling
 
 CAPTION RULES:
 - 1-2 sentences, conversational luxury tone

@@ -50,10 +50,12 @@ jobs:
           TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
         run: |
           IMAGE_URL=$(jq -r '.imageUrl' data/generate-result.json)
-          CAPTION=$(jq -r '.caption' data/generate-result.json | head -1)
+          TITLE=$(jq -r '.title' data/generate-result.json)
+          CAPTION=$(jq -r '.caption' data/generate-result.json)
           echo "Posting: $IMAGE_URL"
+          echo "Title: $TITLE"
           echo "Caption: $CAPTION"
-          npx tsx src/cli.ts post --photos "$IMAGE_URL" --title "$CAPTION" --aigc
+          npx tsx src/cli.ts post --photos "$IMAGE_URL" --title "$TITLE" --description "$CAPTION" --aigc
 
       - name: Log token status
         if: always()

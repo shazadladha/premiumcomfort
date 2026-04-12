@@ -10,6 +10,7 @@ export interface ContentRecord {
   contentType: string;
   imageFilename: string;
   imageUrl: string;
+  title?: string;
   caption: string;
   generatedAt: string;
   postedAt?: string;

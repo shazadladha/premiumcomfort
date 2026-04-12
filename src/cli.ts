@@ -74,6 +74,7 @@ Usage:
 function getPostOptions(): PostOptions {
   return {
     title: getFlag("title"),
+    description: getFlag("description"),
     privacyLevel: (getFlag("privacy") as PrivacyLevel) || "SELF_ONLY",
     disableDuet: hasFlag("no-duet"),
     disableStitch: hasFlag("no-stitch"),
@@ -277,6 +278,7 @@ async function main(): Promise<void> {
           resolve(config.dataDir, "generate-result.json"),
           JSON.stringify({
             imageUrl: result.imageUrl,
+            title: result.title,
             caption: result.caption,
             filename: result.record.imageFilename,
           }, null, 2)

@@ -21,6 +21,7 @@ import {
 export interface GenerateResult {
   record: ContentRecord;
   imageUrl: string;
+  title: string;
   caption: string;
 }
 
@@ -70,6 +71,7 @@ async function generateFromBrief(
   const id = randomUUID().slice(0, 8);
   const filename = `${id}.jpg`;
   const prompt = brief.imagePrompt;
+  const title = brief.title;
   const caption = `${brief.caption}\n\n${brief.hashtags.join(" ")}`;
   const pHash = hashPrompt(prompt);
 
@@ -90,6 +92,7 @@ async function generateFromBrief(
     contentType: brief.contentType,
     imageFilename: filename,
     imageUrl,
+    title,
     caption,
     generatedAt: image.generatedAt,
     status: "generated",
@@ -100,7 +103,7 @@ async function generateFromBrief(
   const allHistory = getHistory(config);
   updateGalleryPage(allHistory);
 
-  return { record, imageUrl, caption };
+  return { record, imageUrl, title, caption };
 }
 
 export async function dryRun(config: AppConfig, count: number): Promise<void> {
@@ -120,6 +123,7 @@ export async function dryRun(config: AppConfig, count: number): Promise<void> {
     const b = briefs[i];
     console.log(`${i + 1}. [${b.category}/${b.contentType}]`);
     console.log(`   Prompt: ${b.imagePrompt.slice(0, 120)}...`);
+    console.log(`   Title: ${b.title}`);
     console.log(`   Caption: ${b.caption}`);
     console.log(`   Tags: ${b.hashtags.join(" ")}`);
     console.log();
