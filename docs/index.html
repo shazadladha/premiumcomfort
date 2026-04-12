@@ -267,10 +267,12 @@
             position: relative;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             background: var(--cream);
+            padding-bottom: 5rem;
         }
 
         /* Gradient mesh background */
@@ -438,15 +440,13 @@
         }
 
         .hero-scroll {
-            position: absolute;
-            bottom: 2.5rem;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
             z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
+            margin-top: var(--space-md);
             color: var(--warm-gray);
             font-size: 0.7rem;
             letter-spacing: 0.15em;
@@ -1310,11 +1310,11 @@
                 </a>
                 <a href="#collections" class="btn btn-ghost">Browse Categories</a>
             </div>
-        </div>
 
-        <div class="hero-scroll">
-            <span>Scroll</span>
-            <div class="hero-scroll-line"></div>
+            <div class="hero-scroll">
+                <span>Scroll</span>
+                <div class="hero-scroll-line"></div>
+            </div>
         </div>
     </section>
 

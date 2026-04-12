@@ -37,25 +37,51 @@ export function updateGalleryPage(records: ContentRecord[]): void {
         new Date(b.generatedAt).getTime() - new Date(a.generatedAt).getTime()
     );
 
-  const imageCards = sorted
-    .map((record) => {
-      const date = new Date(record.generatedAt).toLocaleDateString("en-GB", {
+  // Find images on disk not covered by any record
+  const recordedFiles = new Set(sorted.map((r) => r.imageFilename));
+  const untracked = existingImages
+    .filter((f) => !recordedFiles.has(f))
+    .map((f) => ({
+      imageFilename: f,
+      caption: "",
+      generatedAt: new Date().toISOString(),
+    }));
+
+  const allItems = [
+    ...sorted.map((r) => ({
+      imageFilename: r.imageFilename,
+      caption: r.caption,
+      generatedAt: r.generatedAt,
+    })),
+    ...untracked,
+  ];
+
+  const imageCards = allItems
+    .map((item) => {
+      const date = new Date(item.generatedAt).toLocaleDateString("en-GB", {
         day: "numeric",
         month: "long",
         year: "numeric",
       });
-      const caption = escapeHtml(record.caption.split("\n")[0]);
-      return `            <div class="gallery-item">
-                <img src="images/${record.imageFilename}" alt="${caption}" loading="lazy">
+      const caption = item.caption ? escapeHtml(item.caption.split("\n")[0]) : "";
+      const imgAlt = caption || item.imageFilename;
+      const captionHtml = caption
+        ? `
                 <div class="gallery-caption">
                     <p class="caption-text">${caption}</p>
                     <span class="caption-date">${date}</span>
-                </div>
+                </div>`
+        : `
+                <div class="gallery-caption">
+                    <span class="caption-date">${date}</span>
+                </div>`;
+      return `            <div class="gallery-item">
+                <img src="images/${item.imageFilename}" alt="${imgAlt}" loading="lazy">${captionHtml}
             </div>`;
     })
     .join("\n");
 
-  const html = generateGalleryHtml(imageCards, sorted.length);
+  const html = generateGalleryHtml(imageCards, allItems.length);
   writeFileSync(resolve(INSPIRE_DIR, "index.html"), html);
 }
 
