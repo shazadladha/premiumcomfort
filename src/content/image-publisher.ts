@@ -58,25 +58,10 @@ export function updateGalleryPage(records: ContentRecord[]): void {
 
   const imageCards = allItems
     .map((item) => {
-      const date = new Date(item.generatedAt).toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      });
       const caption = item.caption ? escapeHtml(item.caption.split("\n")[0]) : "";
       const imgAlt = caption || item.imageFilename;
-      const captionHtml = caption
-        ? `
-                <div class="gallery-caption">
-                    <p class="caption-text">${caption}</p>
-                    <span class="caption-date">${date}</span>
-                </div>`
-        : `
-                <div class="gallery-caption">
-                    <span class="caption-date">${date}</span>
-                </div>`;
       return `            <div class="gallery-item">
-                <img src="images/${item.imageFilename}" alt="${imgAlt}" loading="lazy">${captionHtml}
+                <img src="images/${item.imageFilename}" alt="${imgAlt}" loading="lazy">
             </div>`;
     })
     .join("\n");
@@ -231,24 +216,6 @@ function generateGalleryHtml(imageCards: string, count: number): string {
         .gallery-item img {
             width: 100%;
             display: block;
-        }
-
-        .gallery-caption {
-            padding: 1.2rem 1.5rem;
-        }
-
-        .caption-text {
-            font-size: 0.95rem;
-            color: var(--charcoal);
-            line-height: 1.5;
-            margin-bottom: 0.5rem;
-        }
-
-        .caption-date {
-            font-size: 0.75rem;
-            color: var(--taupe);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
         }
 
         .empty-state {
