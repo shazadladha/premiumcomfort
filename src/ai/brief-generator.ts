@@ -73,9 +73,9 @@ function getSeasonalHint(): string {
 }
 
 const EXEMPLAR_PROMPTS = [
-  `Scene/backdrop: contemporary bedroom with dark upholstered headboard and concrete accent wall. Subject: beautifully styled king-size bed with crisp white sateen sheets and layered pillows in ivory and charcoal. Composition/framing: wide shot, eye-level, bed centered. Lighting/mood: warm directional light from side, soft shadows. Materials/textures: sateen weave sheets, velvet pillows, brushed brass bedside lamp. ${BRAND_STYLE}`,
-  `Scene/backdrop: contemporary living room, rain visible through the window. Subject: cashmere-blend throw artfully draped on a sofa, with a cup of tea and an open book. Composition/framing: medium-wide shot, natural framing through window light. Lighting/mood: overcast diffused light, intimate and cosy atmosphere. Materials/textures: cashmere-blend knit, dark upholstery, matte ceramic cup. ${BRAND_STYLE}`,
-  `Scene/backdrop: neutral background. Subject: extreme close-up of thick Turkish cotton towel showing dense loop pile, soft white colour with subtle charcoal stripe detail. Composition/framing: extreme close-up macro, shallow depth of field. Lighting/mood: soft directional side light, highlighting loop pile texture. Materials/textures: Turkish cotton loop pile, individual loops visible, woven stripe detail. ${BRAND_STYLE}`,
+  `Scene/backdrop: warm beige studio background with a stainless steel rolling cart as prop. Subject: a vibrant stack of decorative cushions in mixed bold patterns — pink and red gingham, cobalt blue checks, green and cream stripes, orange striped bolsters — with ruffled and fringed edges. Composition/framing: full-length shot of the cart, products piled high and overflowing with personality. Lighting/mood: soft even studio lighting, warm and playful atmosphere. Materials/textures: gingham cotton, checked wool, striped linen, ruffled trim, fringed edges, bold saturated colours contrasting against each other. ${BRAND_STYLE}`,
+  `Scene/backdrop: warm-toned living room with beige plastered walls, a low wooden bookshelf with ceramics and art books, abstract art on wall. Subject: a wide corduroy armchair in rich terracotta with a button-tufted cushion, sitting on an abstract colour-blocked rug in navy, tan, and burgundy. Composition/framing: three-quarter angle, medium shot, full room context visible. Lighting/mood: warm natural light from side, cosy and sophisticated. Materials/textures: wide-wale corduroy, tapered wooden legs, colour-blocked wool rug, matte ceramics, natural wood. ${BRAND_STYLE}`,
+  `Scene/backdrop: bright, airy living room with light oak floors, large windows with sheer curtains, a rattan accent chair, fiddle leaf fig plant. Subject: a bold olive green area rug with a terracotta border and black-and-cream striped edges, anchoring a round wooden coffee table with a small vase of greenery. Composition/framing: elevated angle wide shot showing full rug and surrounding furniture. Lighting/mood: abundant natural daylight, fresh and inviting. Materials/textures: dense wool pile rug, striped woven border, natural oak, cream linen sofa, woven rattan, knitted pouf. ${BRAND_STYLE}`,
 ];
 
 function buildSystemPrompt(): string {
@@ -89,12 +89,12 @@ BRAND IDENTITY:
 ${BRAND_STYLE}
 
 PRODUCT CATEGORIES (pick one per brief):
-- bedding: sheets, duvet covers, pillowcases, bed sets. Materials: sateen, Egyptian cotton, percale.
-- throws: throw blankets, knit throws, cashmere-blend throws. Materials: chunky knit, waffle weave, ribbed faux fur, cashmere-blend.
-- cushions: cushion covers, decorative pillows. Materials: bouclé, velvet, ribbed knit, brushed cotton.
-- towels: bath towels, hand towels, bath mats, bath accessories. Materials: Turkish cotton, dense loop pile.
-- fragrance: candles, reed diffusers, room sprays, linen mists. Materials: soy wax, stone vessels, frosted glass.
-- loungewear: robes, pyjama sets, lounge sets, slippers. Materials: brushed cotton jersey, lightweight cotton, cashmere knit.
+- bedding: sheets, duvet covers, pillowcases, bed sets. Materials: sateen, Egyptian cotton, percale. Patterns/colours: tonal stripes, contrast piping, warm whites with terracotta or olive accents.
+- throws: throw blankets, knit throws, cashmere-blend throws. Materials: chunky knit, waffle weave, ribbed faux fur, cashmere-blend. Patterns/colours: colour-blocked panels, striped knit, bold single colours (mustard, blush, navy).
+- cushions: cushion covers, decorative pillows, bolsters. Materials: bouclé, velvet, ribbed knit, brushed cotton, linen. Patterns/colours: gingham, stripes, checks, ruffled or fringed edges, bold mixed colours (cobalt, pink, olive, terracotta).
+- towels: bath towels, hand towels, bath mats, bath accessories. Materials: Turkish cotton, dense loop pile. Patterns/colours: contrast stripe details, warm whites, terracotta or sage accents.
+- rugs: area rugs, runners, layering rugs. Materials: dense wool pile, woven cotton, jute. Patterns/colours: geometric borders, striped edges, colour-blocked abstract, bold centre colours (olive, navy, terracotta) with contrasting borders.
+- pillows: bed pillows, euro shams, decorative bed pillows. Materials: sateen, percale, bouclé. Patterns/colours: contrast flanges, striped shams, layered arrangements mixing patterns and solids.
 
 CONTENT TYPES (pick one per brief):
 - product-hero: single product as focal point, beauty shot
@@ -110,10 +110,13 @@ IMAGE PROMPT RULES:
 3. Be highly specific. Name exact materials (sateen weave, bouclé loops, Turkish cotton loop pile), exact lighting conditions (golden hour side light, soft diffused overcast), exact compositions (three-quarter angle, top-down flat lay, eye-level centered).
 4. Include intended use context (social media product photography) to set the level of polish.
 5. ALLOWED augmentation: composition/framing cues, practical layout guidance, reasonable scene concreteness (specific furniture pieces, architectural elements, complementary objects that naturally belong in the scene).
-6. DO NOT add: extra characters or people, brand palettes or colours not established in the brand identity, arbitrary left/right placement decisions, text overlays, logos, or watermarks.
+6. DO NOT add: extra characters or people, arbitrary left/right placement decisions, text overlays, logos, or watermarks.
 7. Every prompt MUST end with: "${BRAND_STYLE}"
 8. Photorealistic-natural style: prompt as if capturing a real photograph. Call for real textures, real materials, real lighting. No over-stylised polish.
 9. Vary your scenes, backdrops, lighting conditions, and compositions. Do not default to the same room or setup each time.
+10. BOLD COLOUR AND PATTERN: Always include at least one bold pattern (stripes, gingham, checks, geometric, corduroy) or saturated colour (terracotta, cobalt, olive, mustard, navy, blush pink). Avoid all-neutral or all-muted compositions.
+11. STRONG CONTRAST: Products must pop against their backgrounds. Pair bold products with neutral backdrops, or neutral products with bold accent pieces. Never let everything blend into the same tonal range.
+12. LAYERED STYLING: Rooms and scenes should feel curated and lived-in — include complementary accessories (plants, ceramics, books, art, rugs, lamps). Avoid sparse, single-product-on-empty-surface compositions.
 
 TITLE RULES:
 - Short, punchy, scroll-stopping hook that makes people pause
